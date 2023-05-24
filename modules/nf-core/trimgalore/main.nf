@@ -34,10 +34,15 @@ process TRIMGALORE {
         if (meta.single_end) cores = (task.cpus as int) - 3
         if (cores < 1) cores = 1
         if (cores > 8) cores = 8
-        // allow to use a configured hard cpu limit
-        if (task.ext.core_limit) {
-            if (task.ext.core_limit > cores) cores = core_limit
-            }
+    }
+   
+    // allow to use a configured hard cpu limit
+    if (task.ext.core_limit) {
+      cores = task.ext.core_limit
+      
+      if (task.ext.core_limit > task.cpus) {
+         cores = task.cpus
+       } 
     }
 
     // Added soft-links to original fastqs for consistent naming in MultiQC
