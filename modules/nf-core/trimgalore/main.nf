@@ -1,7 +1,8 @@
 process TRIMGALORE {
     tag "$meta.id"
     label 'process_high'
-
+    
+    
     conda (params.enable_conda ? 'bioconda::trim-galore=0.6.7' : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/trim-galore:0.6.7--hdfd78af_0' :
@@ -33,6 +34,10 @@ process TRIMGALORE {
         if (meta.single_end) cores = (task.cpus as int) - 3
         if (cores < 1) cores = 1
         if (cores > 8) cores = 8
+        // allow to use a configured hard cpu limit
+        if (task.ext.core_limit) {
+            if (task.ext.core_limit > cores) cores = core_limit
+            }
     }
 
     // Added soft-links to original fastqs for consistent naming in MultiQC
