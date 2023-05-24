@@ -38,10 +38,10 @@ process TRIMGALORE {
    
     // allow to use a configured hard cpu limit
     if (task.ext.core_limit) {
-      cores = task.ext.core_limit
+      cores = (task.ext.core_limit as int)
       
-      if (task.ext.core_limit > task.cpus) {
-         cores = task.cpus
+      if ( (task.ext.core_limit as int) > (task.cpus as int) ) {
+         cores = (task.cpus as int)
        } 
     }
 
