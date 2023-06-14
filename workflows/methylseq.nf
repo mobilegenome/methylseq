@@ -204,7 +204,8 @@ workflow METHYLSEQ {
     /* PRESEQ_LCEXTRAP (
      *    ch_bam
      * )
-     */ versions = versions.mix(PRESEQ_LCEXTRAP.out.versions.first())
+     * versions = versions.mix(PRESEQ_LCEXTRAP.out.versions.first())
+     */
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         versions.unique().collectFile(name: 'collated_versions.yml')
