@@ -27,7 +27,7 @@ process QUALIMAP_BAMQC {
         def memory     = "8G"
     else {
         def memory     = task.memory.toGiga() + "G"
-    )
+    }
     def regions = gff ? "--gff $gff" : ''
 
     def strandedness = 'non-strand-specific'
