@@ -23,7 +23,11 @@ process QUALIMAP_BAMQC {
     prefix   = task.ext.prefix ?: "${meta.id}"
 
     def collect_pairs = meta.single_end ? '' : '--collect-overlap-pairs'
-    def memory     = task.memory.toGiga() + "G"
+    if( !task.memory ) {
+        def memory     = "8G"
+    else {
+        def memory     = task.memory.toGiga() + "G"
+    )
     def regions = gff ? "--gff $gff" : ''
 
     def strandedness = 'non-strand-specific'
