@@ -25,6 +25,7 @@ process QUALIMAP_BAMQC {
     def collect_pairs = meta.single_end ? '' : '--collect-overlap-pairs'
     if( !task.memory ) {
         def memory     = "8G"
+    }
     else {
         def memory     = task.memory.toGiga() + "G"
     }
