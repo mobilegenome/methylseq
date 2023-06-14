@@ -23,8 +23,11 @@ process QUALIMAP_BAMQC {
     prefix   = task.ext.prefix ?: "${meta.id}"
 
     def collect_pairs = meta.single_end ? '' : '--collect-overlap-pairs'
-    
-    def memory     = task.memory.toGiga() + "G" ?: "8G"
+
+    // set default if task.memory is unset
+    def task_memory = task.memory ?: "8000M"
+    // then convert to Giga
+    def memory     = task_memory.toGiga() + "G" 
 
     def regions = gff ? "--gff $gff" : ''
 
