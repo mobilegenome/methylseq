@@ -200,10 +200,11 @@ workflow METHYLSEQ {
     /*
      * MODULE: Run Preseq
      */
-    PRESEQ_LCEXTRAP (
-        ch_bam
-    )
-    versions = versions.mix(PRESEQ_LCEXTRAP.out.versions.first())
+    
+    /* PRESEQ_LCEXTRAP (
+     *    ch_bam
+     * )
+     */ versions = versions.mix(PRESEQ_LCEXTRAP.out.versions.first())
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         versions.unique().collectFile(name: 'collated_versions.yml')
@@ -224,7 +225,7 @@ workflow METHYLSEQ {
         ch_multiqc_files = ch_multiqc_files.mix(ch_methods_description.collectFile(name: 'methods_description_mqc.yaml'))
         ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
         ch_multiqc_files = ch_multiqc_files.mix(QUALIMAP_BAMQC.out.results.collect{ it[1] }.ifEmpty([]))
-        ch_multiqc_files = ch_multiqc_files.mix(PRESEQ_LCEXTRAP.out.log.collect{ it[1] }.ifEmpty([]))
+        // ch_multiqc_files = ch_multiqc_files.mix(PRESEQ_LCEXTRAP.out.log.collect{ it[1] }.ifEmpty([]))
         ch_multiqc_files = ch_multiqc_files.mix(ch_aligner_mqc.ifEmpty([]))
         if (!params.skip_trimming) {
             ch_multiqc_files = ch_multiqc_files.mix(TRIMGALORE.out.log.collect{ it[1] })
